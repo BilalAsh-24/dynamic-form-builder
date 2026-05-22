@@ -125,27 +125,12 @@ export default function Dashboard() {
                   <Link
                     to={`/responses/${form.form_id}`}
                     className="apple-btn apple-btn-primary apple-btn-sm w-100"
-                    style={{ textAlign: "center", backgroundColor: "#34c759", hover: { backgroundColor: "#30b050" } }}
+                    style={{ textAlign: "center", backgroundColor: "#34c759" }}
                     onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#30b050"}
                     onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#34c759"}
                   >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={handleDeleteConfirm}
-                    disabled={deleting}
-                  >
-                    {deleting ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                        Deleting...
-                      </>
-                    ) : (
-                      "Delete Form"
-                    )}
-                  </button>
+                    View Responses
+                  </Link>
                 </div>
               </div>
             ))}
