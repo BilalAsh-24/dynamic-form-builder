@@ -15,7 +15,10 @@ export default function ViewResponses() {
         setResponses(res.data);
       } catch (error) {
         console.error("Load responses error:", error);
-        setErr("Failed to load responses");
+        const message = error.response
+          ? (error.response.data?.message || "Failed to load responses.")
+          : "Cannot connect to server. Please ensure the backend is running.";
+        setErr(message);
       }
     };
     loadResponses();

@@ -71,7 +71,10 @@ export default function CreateForm() {
       nav("/dashboard");
     } catch (error) {
       console.error(error);
-      setErr("Failed to create form");
+      const message = error.response
+        ? (error.response.data?.message || "Failed to create form.")
+        : "Cannot connect to server. Please ensure the backend is running.";
+      setErr(message);
     }
   };
 

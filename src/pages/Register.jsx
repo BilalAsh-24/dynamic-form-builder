@@ -51,7 +51,9 @@ export default function Register() {
         navigate("/login");
       }, 1500);
     } catch (error) {
-      const message = error.response?.data?.message || "Registration failed. Try another email.";
+      const message = error.response
+        ? (error.response.data?.message || "An unexpected server error occurred.")
+        : "Cannot connect to server. Please ensure the backend is running.";
       setErr(message);
     } finally {
       setLoading(false);

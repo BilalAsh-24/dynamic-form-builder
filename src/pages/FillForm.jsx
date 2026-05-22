@@ -17,7 +17,12 @@ export default function FillForm() {
   useEffect(() => {
     API.get(`/forms/${id}`)
       .then((res) => setForm(res.data))
-      .catch(() => setMsg("Form Not Found or Expired"));
+      .catch((error) => {
+        const message = error.response
+          ? (error.response.status === 404 ? "Form Not Found or Expired" : "An unexpected server error occurred.")
+          : "Cannot connect to server. Please ensure the backend is running.";
+        setMsg(message);
+      });
   }, [id]);
 
   // Load a respondent's previous submission
@@ -48,7 +53,10 @@ export default function FillForm() {
     } catch (error) {
       console.error(error);
       setIsEditingResponse(false);
-      setErrorMsg("No previous submission found for this email. You can fill the form as a new response.");
+      const message = error.response
+        ? (error.response.status === 404 ? "No previous submission found for this email. You can fill the form as a new response." : (error.response.data?.message || "Failed to load previous response."))
+        : "Cannot connect to server. Please ensure the backend is running.";
+      setErrorMsg(message);
     } finally {
       setLoadingResponse(false);
     }
@@ -83,7 +91,10 @@ export default function FillForm() {
       }
       setSubmitted(true);
     } catch (error) {
-      setErrorMsg(error.response?.data?.message || "Failed to submit response. Please try again.");
+      const message = error.response
+        ? (error.response.data?.message || "Failed to submit response. Please try again.")
+        : "Cannot connect to server. Please ensure the backend is running.";
+      setErrorMsg(message);
     }
   };
 
@@ -104,7 +115,10 @@ export default function FillForm() {
       setEmail("");
       setSuccessMsg("Your previous submission has been successfully deleted.");
     } catch (error) {
-      setErrorMsg("Failed to delete submission. Please try again.");
+      const message = error.response
+        ? (error.response.data?.message || "Failed to delete submission. Please try again.")
+        : "Cannot connect to server. Please ensure the backend is running.";
+      setErrorMsg(message);
     }
   };
 

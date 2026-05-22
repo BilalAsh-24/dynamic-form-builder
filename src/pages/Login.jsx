@@ -26,7 +26,9 @@ export default function Login() {
       await login(email, password);
       navigate("/dashboard", { replace: true });
     } catch (error) {
-      const message = error.response?.data?.message || "Invalid email or password";
+      const message = error.response
+        ? (error.response.data?.message || "An unexpected server error occurred.")
+        : "Cannot connect to server. Please ensure the backend is running.";
       setErr(message);
     } finally {
       setLoading(false);

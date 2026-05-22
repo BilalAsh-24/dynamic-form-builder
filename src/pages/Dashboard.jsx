@@ -13,7 +13,10 @@ export default function Dashboard() {
       const res = await API.get("/forms/myforms");
       setForms(res.data);
     } catch (error) {
-      setErr("Failed to load forms");
+      const message = error.response
+        ? (error.response.data?.message || "Failed to load forms.")
+        : "Cannot connect to server. Please ensure the backend is running.";
+      setErr(message);
     }
   };
 
@@ -42,7 +45,10 @@ export default function Dashboard() {
       loadForms();
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Failed to delete form");
+      const message = error.response
+        ? (error.response.data?.message || "Failed to delete form.")
+        : "Cannot connect to server. Please ensure the backend is running.";
+      alert(message);
     }
   };
 

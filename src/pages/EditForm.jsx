@@ -43,7 +43,10 @@ export default function EditForm() {
       setLoading(false);
     } catch (error) {
       console.error(error);
-      setErr("Failed to load form");
+      const message = error.response
+        ? (error.response.data?.message || "Failed to load form.")
+        : "Cannot connect to server. Please ensure the backend is running.";
+      setErr(message);
       setLoading(false);
     }
   };
@@ -106,7 +109,10 @@ export default function EditForm() {
       nav("/dashboard");
     } catch (error) {
       console.error(error);
-      setErr(error.response?.data?.message || "Failed to update form");
+      const message = error.response
+        ? (error.response.data?.message || "Failed to update form.")
+        : "Cannot connect to server. Please ensure the backend is running.";
+      setErr(message);
     }
   };
 
