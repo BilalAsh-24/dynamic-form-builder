@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import API from "../api";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import Header from "../components/Header";
 
-export default function CreateForm() {
+export default function EditForm() {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState([
@@ -11,7 +12,41 @@ export default function CreateForm() {
   ]);
   const [expiresAt, setExpiresAt] = useState("");
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(true);
   const nav = useNavigate();
+
+  useEffect(() => {
+    loadForm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const loadForm = async () => {
+    try {
+      const res = await API.get(`/forms/${id}`);
+      const form = res.data;
+
+      setTitle(form.title);
+      setDescription(form.description || "");
+      setExpiresAt(form.expires_at ? new Date(form.expires_at).toISOString().slice(0, 16) : "");
+
+      const transformedQuestions = form.Questions.map((q) => ({
+        questionText: q.question_text,
+        questionType: q.question_type,
+        options: q.Options ? q.Options.map((opt) => opt.option_text) : [],
+        required: q.required,
+      }));
+
+      setQuestions(transformedQuestions.length > 0 ? transformedQuestions : [
+        { questionText: "", questionType: "text", options: [], required: false }
+      ]);
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setErr("Failed to load form");
+      setLoading(false);
+    }
+  };
 
   const addQuestion = () =>
     setQuestions([
@@ -61,19 +96,32 @@ export default function CreateForm() {
     }
 
     try {
-      await API.post("/forms/create", {
+      await API.put(`/forms/${id}`, {
         title,
         description,
         expiresAt,
         questions,
       });
-      alert("Form Created Successfully!");
+      alert("Form Updated Successfully!");
       nav("/dashboard");
     } catch (error) {
       console.error(error);
-      setErr("Failed to create form");
+      setErr(error.response?.data?.message || "Failed to update form");
     }
   };
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="apple-container-sm text-center" style={{ marginTop: "100px" }}>
+          <div className="apple-card">
+            <h4 style={{ fontWeight: "600" }}>Loading form editor...</h4>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -81,8 +129,8 @@ export default function CreateForm() {
       <div className="apple-container-sm">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
           <div>
-            <h1 className="apple-title">Create Form</h1>
-            <p className="apple-subtitle" style={{ marginBottom: 0 }}>Design a sleek new questionnaire</p>
+            <h1 className="apple-title">Edit Form</h1>
+            <p className="apple-subtitle" style={{ marginBottom: 0 }}>Modify form metadata and structure</p>
           </div>
           <Link to="/dashboard" className="apple-btn apple-btn-outline">
             Cancel
@@ -254,7 +302,7 @@ export default function CreateForm() {
 
           <div style={{ display: "flex", gap: "15px", marginBottom: "80px" }}>
             <button type="submit" className="apple-btn apple-btn-primary w-100" style={{ height: "48px" }}>
-              Publish Form
+              Update Form
             </button>
           </div>
         </form>
