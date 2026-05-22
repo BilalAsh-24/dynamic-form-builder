@@ -129,8 +129,23 @@ export default function Dashboard() {
                     onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#30b050"}
                     onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#34c759"}
                   >
-                    View Responses
-                  </Link>
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleDeleteConfirm}
+                    disabled={deleting}
+                  >
+                    {deleting ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Deleting...
+                      </>
+                    ) : (
+                      "Delete Form"
+                    )}
+                  </button>
                 </div>
               </div>
             ))}
@@ -140,3 +155,4 @@ export default function Dashboard() {
     </>
   );
 }
+
