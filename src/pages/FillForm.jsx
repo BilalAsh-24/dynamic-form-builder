@@ -142,21 +142,20 @@ export default function FillForm() {
           <p className="apple-subtitle">Your responses have been securely recorded.</p>
           {successMsg && <div className="apple-alert apple-alert-success mb-20">{successMsg}</div>}
           <div className="d-flex justify-content-center gap-15 mt-20">
-            <button
-              onClick={() => {
-                setSubmitted(false);
-                setIsEditingResponse(false);
-                setAnswers({});
-                setEmail("");
-                setSuccessMsg("");
-              }}
-              className="apple-btn apple-btn-primary"
-            >
-              Fill Again
-            </button>
-            <Link to="/dashboard" className="apple-btn apple-btn-secondary">
-              Go to Dashboard
-            </Link>
+            {form.allowMultipleResponses !== false && (
+              <button
+                onClick={() => {
+                  setSubmitted(false);
+                  setIsEditingResponse(false);
+                  setAnswers({});
+                  setEmail("");
+                  setSuccessMsg("");
+                }}
+                className="apple-btn apple-btn-primary"
+              >
+                Fill Again
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ export default function EditForm() {
     { questionText: "", questionType: "text", options: [], required: false },
   ]);
   const [expiresAt, setExpiresAt] = useState("");
+  const [allowMultipleResponses, setAllowMultipleResponses] = useState(true);
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(true);
   const nav = useNavigate();
@@ -28,6 +29,7 @@ export default function EditForm() {
       setTitle(form.title);
       setDescription(form.description || "");
       setExpiresAt(form.expires_at ? new Date(form.expires_at).toISOString().slice(0, 16) : "");
+      setAllowMultipleResponses(form.allowMultipleResponses !== undefined ? form.allowMultipleResponses : true);
 
       const transformedQuestions = form.Questions.map((q) => ({
         questionText: q.question_text,
@@ -103,6 +105,7 @@ export default function EditForm() {
         title,
         description,
         expiresAt,
+        allowMultipleResponses,
         questions,
       });
       alert("Form Updated Successfully!");
@@ -292,10 +295,11 @@ export default function EditForm() {
             + Add Another Question
           </button>
 
-          {/* Expiration Settings */}
+          {/* Form Settings */}
           <div className="apple-card" style={{ padding: "32px", marginBottom: "40px" }}>
-            <h5 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "20px" }}>Expiry Configuration</h5>
-            <div className="apple-form-group" style={{ marginBottom: 0 }}>
+            <h5 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "20px" }}>Form Settings</h5>
+            
+            <div className="apple-form-group" style={{ marginBottom: "20px" }}>
               <label className="apple-label">Expiration Date & Time (Optional)</label>
               <input
                 type="datetime-local"
@@ -303,6 +307,22 @@ export default function EditForm() {
                 value={expiresAt}
                 onChange={(e) => setExpiresAt(e.target.value)}
               />
+            </div>
+
+            <div className="apple-form-group" style={{ marginBottom: 0 }}>
+              <label className="apple-radio-option w-100" style={{ margin: 0, padding: "12px 16px", border: "1px solid var(--apple-border)", borderRadius: "var(--apple-radius-md)", display: "flex", alignItems: "center", gap: "10px", backgroundColor: "#f5f5f7" }}>
+                <input
+                  type="checkbox"
+                  className="apple-radio-input"
+                  style={{ borderRadius: "4px", width: "18px", height: "18px", margin: 0 }}
+                  checked={allowMultipleResponses}
+                  onChange={(e) => setAllowMultipleResponses(e.target.checked)}
+                />
+                <div>
+                  <span style={{ fontSize: "14px", fontWeight: "600", display: "block", color: "var(--apple-text)" }}>Allow multiple submissions</span>
+                  <small style={{ fontSize: "12px", color: "var(--apple-text-secondary)" }}>If unchecked, respondents can only submit a response once per email address.</small>
+                </div>
+              </label>
             </div>
           </div>
 
