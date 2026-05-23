@@ -56,7 +56,7 @@ export default function Dashboard() {
     <>
       <Header />
       <div className="apple-container">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+        <div className="responsive-header">
           <div>
             <h1 className="apple-title">My Forms</h1>
             <p className="apple-subtitle" style={{ marginBottom: 0 }}>Create, publish, and inspect your custom forms</p>

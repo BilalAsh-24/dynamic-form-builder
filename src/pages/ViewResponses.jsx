@@ -28,7 +28,7 @@ export default function ViewResponses() {
     <>
       <Header />
       <div className="apple-container">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+        <div className="responsive-header">
           <div>
             <h1 className="apple-title">Form Responses</h1>
             <p className="apple-subtitle" style={{ marginBottom: 0 }}>Review all submitted responses for this form</p>

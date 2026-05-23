@@ -592,3 +592,67 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
 }
+
+/* Mobile Responsiveness & Premium Viewport Optimization */
+.responsive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.responsive-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  .responsive-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 16px;
+  }
+
+  .responsive-header .apple-btn {
+    width: 100% !important;
+    text-align: center;
+  }
+
+  .responsive-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .apple-container, .apple-container-sm, .apple-container-mini {
+    padding: 24px 16px !important;
+  }
+  
+  .apple-card {
+    padding: 24px 20px !important;
+    border-radius: 14px !important;
+  }
+
+  .apple-title {
+    font-size: 24px !important;
+  }
+
+  .apple-subtitle {
+    font-size: 13px !important;
+  }
+
+  /* Form actions stack on mobile */
+  .d-flex.gap-15, .d-flex.justify-content-center.gap-15, .d-flex.justify-content-between.align-items-center.gap-15 {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .apple-btn {
+    width: 100% !important;
+    text-align: center;
+  }
+  
+  .container {
+    padding: 1.2rem !important;
+  }
+}

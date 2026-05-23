@@ -84,7 +84,7 @@ export default function CreateForm() {
     <>
       <Header />
       <div className="apple-container-sm">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
+        <div className="responsive-header">
           <div>
             <h1 className="apple-title">Create Form</h1>
             <p className="apple-subtitle" style={{ marginBottom: 0 }}>Design a sleek new questionnaire</p>
@@ -165,7 +165,7 @@ export default function CreateForm() {
                 />
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", marginBottom: "16px" }}>
+              <div className="responsive-grid-2">
                 <div>
                   <label className="apple-label">Response Type</label>
                   <select
